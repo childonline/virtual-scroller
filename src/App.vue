@@ -71,19 +71,19 @@
 
     async created() {
       let list1 = await this.$axios
-        .get('http://5dc52f170bbd050014fb8659.mockapi.io/inventory?p=1&l=100')
+        .get('https://5dc52f170bbd050014fb8659.mockapi.io/inventory?p=1&l=100')
         .then(response => {
           return response.data
         });
 
       let list2 = await this.$axios
-        .get('http://5dc52f170bbd050014fb8659.mockapi.io/inventory?p=1&l=100')
+        .get('https://5dc52f170bbd050014fb8659.mockapi.io/inventory?p=1&l=100')
         .then(response => {
           return response.data
         });
 
       let list3 = await this.$axios
-        .get('http://5dc52f170bbd050014fb8659.mockapi.io/inventory?p=1&l=100')
+        .get('https://5dc52f170bbd050014fb8659.mockapi.io/inventory?p=1&l=100')
         .then(response => {
           return response.data
         });
