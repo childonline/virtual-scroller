@@ -71,8 +71,8 @@
 
                 <tr>
                   <th class="sheet-header text-truncate text-capitalize">Booked</th>
-                  <td class="sheet-cell" v-for="(inventory, index) in list.sheet.inventory[room.id]" :key="index">
-                    <input v-model.lazy="inventory.booked" class="sheet-input"/>
+                  <td class="sheet-cell text-center" v-for="(inventory, index) in list.sheet.inventory[room.id]" :key="index">
+                    {{ inventory.booked }}
                   </td>
                 </tr>
 
@@ -86,6 +86,19 @@
                       <input v-model.lazy="price.price" class="sheet-input"/>
                     </td>
                   </tr>
+
+                  <tr :key="'length-of-stay' + index" style="background-color: rgba(0,0,0,0.025)">
+                    <th class="sheet-header text-truncate text-capitalize">
+                      <span class="font-weight-light"><v-icon x-small class="mr-1">mdi-information-outline</v-icon> Min. / Max. Length of Stay</span>
+                    </th>
+                  </tr>
+
+                  <tr :key="'advance-reservation' + index" style="background-color: rgba(0,0,0,0.025)">
+                    <th class="sheet-header text-truncate text-capitalize">
+                      <span class="font-weight-light"><v-icon x-small class="mr-1">mdi-information-outline</v-icon> Min. / Max. Adv. Reservation</span>
+                    </th>
+                  </tr>
+
                 </template>
 
               </tbody>
