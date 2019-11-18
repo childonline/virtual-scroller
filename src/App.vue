@@ -52,7 +52,7 @@
               <thead>
                 <tr style="background-color: white;">
                   <th></th>
-                  <th class="sheet-date font-weight-light" :style="{ backgroundColor: (month.name !== '') ? 'white' : 'transparent'}" v-for="(month, index) in sheetMonths" :key="index">{{ month.name }}</th>
+                  <th class="sheet-date font-weight-medium" :style="{ backgroundColor: (month.name !== '') ? 'white' : 'transparent'}" v-for="(month, index) in sheetMonths" :key="index">{{ month.name }}</th>
                 </tr>
                 <tr>
                   <th class="sheet-header"/>
@@ -18565,7 +18565,9 @@
 
       scrollRooms: function (event) {
         this.$refs['sheet-wrapper'].forEach(item => {
-          item.scrollLeft = event.target.scrollLeft;
+          if(event.target!==item) {
+            item.scrollLeft = event.target.scrollLeft;
+          }
         });
       }
     },
@@ -18617,8 +18619,7 @@
   .sheet-date {
     font-size: 12px;
     left: 200px;
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding: .5rem;
     position: -webkit-sticky;
     position: sticky;
   }
