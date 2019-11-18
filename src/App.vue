@@ -31,8 +31,6 @@
 
       <v-container fluid>
 
-        {{months}}
-
         <v-card v-for="(room, index) in list.room_types" :key="index" outlined class="mb-4">
 
           <v-card-title>
@@ -42,7 +40,7 @@
 
           <v-divider class="mx-4"/>
 
-          <v-card-text class="sheet-wrapper pa-0" ref="sheet-wrapper" @scroll="scrollRooms">
+          <v-card-text class="sheet-wrapper" ref="sheet-wrapper" @scroll="scrollRooms">
 
             <table class="sheet">
 
@@ -52,39 +50,39 @@
               </colgroup>
 
               <thead>
-                <tr>
-                  <th class="sheet-header"></th>
-                  <th class="sheet-date" v-for="(day, index) in list.days" :key="index" colspan="30">{{ $moment(day).format('MMMM YYYY') }}</th>
+                <tr style="background-color: white;">
+                  <th></th>
+                  <th class="sheet-date font-weight-light" :style="{ backgroundColor: (month.name !== '') ? 'white' : 'transparent'}" v-for="(month, index) in sheetMonths" :key="index">{{ month.name }}</th>
                 </tr>
                 <tr>
                   <th class="sheet-header"/>
-                  <th v-for="(day, index) in list.days" :key="index">{{ $moment(day).format('ddd') }}<br>{{ $moment(day).format('D') }}</th>
+                  <th class="sheet-cell" v-for="(day, index) in list.days" :key="index">{{ $moment(day).format('ddd') }}<br>{{ $moment(day).format('D') }}</th>
                 </tr>
               </thead>
 
               <tbody>
 
                 <tr>
-                  <th class="sheet-header text-truncate text-capitalize pl-5">Available</th>
-                  <td v-for="(inventory, index) in list.sheet.inventory[room.id]" :key="index">
+                  <th class="sheet-header text-truncate text-capitalize">Available</th>
+                  <td class="sheet-cell" v-for="(inventory, index) in list.sheet.inventory[room.id]" :key="index">
                     <input v-model.lazy="inventory.count" class="sheet-input"/>
                   </td>
                 </tr>
 
                 <tr>
-                  <th class="sheet-header text-truncate text-capitalize pl-5">Booked</th>
-                  <td v-for="(inventory, index) in list.sheet.inventory[room.id]" :key="index">
+                  <th class="sheet-header text-truncate text-capitalize">Booked</th>
+                  <td class="sheet-cell" v-for="(inventory, index) in list.sheet.inventory[room.id]" :key="index">
                     <input v-model.lazy="inventory.booked" class="sheet-input"/>
                   </td>
                 </tr>
 
                 <template v-for="(rate, index) in room.rate_plans">
                   <tr :key="index">
-                    <th class="sheet-header text-truncate text-capitalize pl-5">
-                      <span class="font-weight-medium">{{rate.name}}</span><br>
+                    <th class="sheet-header text-truncate text-capitalize">
+                      <span class="font-weight-medium"><v-icon small class="mr-1 mb-1">mdi-chevron-down</v-icon>{{rate.name}}</span><br>
                       <span class="font-weight-light">(Rate ID: {{rate.id}})</span>
                     </th>
-                    <td v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
+                    <td class="sheet-cell" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
                       <input v-model.lazy="price.price" class="sheet-input"/>
                     </td>
                   </tr>
@@ -18543,21 +18541,26 @@
           }
         }
       };
-      this.aaa = this.getMonths(this.list.period);
+
+      this.sheetMonths = Object.assign({}, this.getMonths(this.list.period));
     },
 
     methods: {
       getMonths: function (period) {
         let start = this.$moment(period.start);
-        let stop  = this.$moment(period.stop);
+        let stop = this.$moment(period.stop);
 
-        let timeValues = [];
+        let months = [{
+          name: start.format('MMM YYYY')
+        }];
 
-        while (stop > start || start.format('M') === stop.format('M')) {
-          timeValues[start.format('MMMM YYYY')] += 1;
+        for (start.add(1, 'days'); start.diff(stop, 'days') <= 0; start.add(1, 'days')) {
+          months.push({
+            name: (start.format('YYYY-MM-DD') === start.clone().startOf('month').format('YYYY-MM-DD')) ? start.format('MMM YYYY') : ''
+          });
         }
 
-        return timeValues;
+        return months;
       },
 
       scrollRooms: function (event) {
@@ -18571,8 +18574,8 @@
       list: [],
       drawer: null,
       show: false
-    }),
-  };
+    })
+  }
 
 </script>
 
@@ -18581,6 +18584,7 @@
   .sheet-wrapper {
     overflow-x: auto;
     overflow-y: hidden;
+    padding: 0 !important;
   }
 
   .sheet {
@@ -18611,11 +18615,10 @@
   }
 
   .sheet-date {
-    background-color: white;
     font-size: 24px;
-    font-weight: lighter;
-    text-align: left;
     left: 200px;
+    padding-top: 6px;
+    padding-bottom: 6px;
     position: -webkit-sticky;
     position: sticky;
   }
@@ -18628,23 +18631,34 @@
     font-size: 12px;
     text-align: left;
     padding: .5rem;
+    border-top: 1px solid rgba(96, 125, 139, .1);
+    border-bottom: 1px solid rgba(96, 125, 139, .1);
+  }
+
+  .sheet-cell {
+    border-top: 1px solid rgba(0, 0, 0, .05);
+    border-bottom: 1px solid rgba(0, 0, 0, .05);
+    border-left: 1px solid rgba(0, 0, 0, .05);
+    border-right: 1px solid rgba(0, 0, 0, .05);
   }
 
   .sheet-input {
-    width: 50px;
-    min-width: 50px;
-    max-width: 50px;
+    min-width: 60px;
+    max-width: 60px;
     background-color: white;
+    font-size: 12px;
     text-align: center;
     margin: .5rem;
   }
 
   .weekday {
-    background-color: rgba(96,125,139, .1)
+    /*background-color: rgba(96, 125, 139, .1)*/
+    background-color: rgba(0, 0, 0, .025)
   }
 
   .weekend {
-    background-color: rgba(96,125,139, .2)
+    /*background-color: rgba(96, 125, 139, .2)*/
+    background-color: rgba(0, 0, 0, .05)
   }
 
 </style>
