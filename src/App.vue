@@ -18615,7 +18615,7 @@
   }
 
   .sheet-date {
-    font-size: 24px;
+    font-size: 12px;
     left: 200px;
     padding-top: 6px;
     padding-bottom: 6px;
