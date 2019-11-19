@@ -6,7 +6,7 @@
       <v-toolbar-title>Toolbar</v-toolbar-title>
     </v-app-bar>
 
-    <v-navigation-drawer app v-model="drawer" clipped temporary>
+    <v-navigation-drawer app v-model="drawer">
       <v-list dense>
         <v-list-item link>
           <v-list-item-action>
@@ -40,7 +40,7 @@
 
           <v-divider class="mx-4"/>
 
-          <v-card-text class="sheet-wrapper" ref="sheet-wrapper" @scroll="scrollRooms">
+          <v-card-text class="sheet-wrapper" ref="sheet-wrapper">
 
             <table class="sheet">
 
@@ -55,7 +55,7 @@
                   <th class="sheet-date font-weight-medium" :style="{ backgroundColor: (month.name !== '') ? 'white' : 'transparent'}" v-for="(month, index) in sheetMonths" :key="index">{{ month.name }}</th>
                 </tr>
                 <tr>
-                  <th class="sheet-header"/>
+                  <th class="sheet-header" style="border-top: 1px solid white; border-left: 1px solid white;"/>
                   <th class="sheet-cell" v-for="(day, index) in list.days" :key="index">{{ $moment(day).format('ddd') }}<br>{{ $moment(day).format('D') }}</th>
                 </tr>
               </thead>
@@ -169,6 +169,17 @@
           </v-card-text>
 
         </v-card>
+
+        <div style="position: fixed; bottom:0; left: 0; right: 0; overflow-x: scroll; z-index:2;" @scroll="scrollRooms">
+          <table>
+            <thead>
+              <tr>
+                <th style="min-width: 250px; max-width: 250px"></th>
+                <th v-for="(day, index) in list.days" :key="index" style="min-width: 75px; max-width: 75px"></th>
+              </tr>
+            </thead>
+          </table>
+        </div>
 
       </v-container>
 
@@ -18661,7 +18672,7 @@
 <style scoped>
 
   .sheet-wrapper {
-    overflow-x: scroll;
+    overflow-x: hidden;
     overflow-y: hidden;
     padding: 0 !important;
   }
@@ -18750,6 +18761,9 @@
   }
 
   .sheet-cell {
+    width: 75px;
+    min-width: 75px;
+    max-width: 75px;
     border: 1px solid rgba(0, 0, 0, .1);
   }
 
