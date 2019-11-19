@@ -31,7 +31,7 @@
 
       <v-container fluid>
 
-        <v-card v-for="(room, index) in list.room_types" :key="index" outlined class="mb-4">
+        <v-card v-for="(room, index) in list.room_types" :key="index" outlined class="ma-2">
 
           <v-card-title>
             <span class="mr-2">{{room.name}}</span>
@@ -90,7 +90,7 @@
 
                   <template v-if="rate.show">
 
-                    <tr :key="'min-inventory' + index">
+                    <tr :key="'min-inventory' + index" style="background-color: rgba(96, 125, 139, .15)">
                       <th class="sheet-header-top text-truncate text-capitalize">
                         <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Min. Inventory</span>
                       </th>
@@ -98,7 +98,7 @@
                         <input v-model.lazy="price.min_inventory" class="sheet-input"/>
                       </td>
                     </tr>
-                    <tr :key="'max-inventory' + index">
+                    <tr :key="'max-inventory' + index" style="background-color: rgba(96, 125, 139, .15)">
                       <th class="sheet-header-bottom text-truncate text-capitalize">
                         <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Max. Inventory</span>
                       </th>
@@ -107,7 +107,7 @@
                       </td>
                     </tr>
 
-                    <tr :key="'min-stay-through' + index">
+                    <tr :key="'min-stay-through' + index" style="background-color: rgba(96, 125, 139, .15)">
                       <th class="sheet-header-top text-truncate text-capitalize">
                         <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Min. Length of Stay</span>
                       </th>
@@ -115,7 +115,7 @@
                         <input v-model.lazy="price.min_stay_through" class="sheet-input"/>
                       </td>
                     </tr>
-                    <tr :key="'max-stay-through' + index">
+                    <tr :key="'max-stay-through' + index" style="background-color: rgba(96, 125, 139, .15)">
                       <th class="sheet-header-bottom text-truncate text-capitalize">
                         <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Max. Length of Stay</span>
                       </th>
@@ -124,7 +124,7 @@
                       </td>
                     </tr>
 
-                    <tr :key="'min-stay' + index">
+                    <tr :key="'min-stay' + index" style="background-color: rgba(96, 125, 139, .15)">
                       <th class="sheet-header-top text-truncate text-capitalize">
                         <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Min. Length of Stay from Arrival</span>
                       </th>
@@ -132,7 +132,7 @@
                         <input v-model.lazy="price.min_stay" class="sheet-input"/>
                       </td>
                     </tr>
-                    <tr :key="'max-stay' + index">
+                    <tr :key="'max-stay' + index" style="background-color: rgba(96, 125, 139, .15)">
                       <th class="sheet-header-bottom text-truncate text-capitalize">
                         <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Max. Length of Stay from Arrival</span>
                       </th>
@@ -141,7 +141,7 @@
                       </td>
                     </tr>
 
-                    <tr :key="'min-days-advance' + index">
+                    <tr :key="'min-days-advance' + index" style="background-color: rgba(96, 125, 139, .15)">
                       <th class="sheet-header-top text-truncate text-capitalize">
                         <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Min. Advance Reservation</span>
                       </th>
@@ -149,7 +149,7 @@
                         <input v-model.lazy="price.min_days_advance" class="sheet-input"/>
                       </td>
                     </tr>
-                    <tr :key="'max-days-advance' + index">
+                    <tr :key="'max-days-advance' + index" style="background-color: rgba(96, 125, 139, .15)">
                       <th class="sheet-header-bottom text-truncate text-capitalize">
                         <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Max. Advance Reservation</span>
                       </th>
@@ -18696,21 +18696,26 @@
   }
 
   .sheet-date {
-    font-size: 12px;
-    left: 250px;
-    padding: .5rem;
     position: -webkit-sticky;
     position: sticky;
+
+    font-size: 12px;
+
+    width: 75px;
+    min-width: 75px;
+    max-width: 75px;
+    left: 250px;
   }
 
   .sheet-header {
+    font-size: 12px;
+    text-align: left;
+
     width: 250px;
     min-width: 250px;
     max-width: 250px;
 
     background-color: white;
-    font-size: 12px;
-    text-align: left;
 
     border: 1px solid rgba(96, 125, 139, .1);
 
