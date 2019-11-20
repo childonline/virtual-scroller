@@ -5,7 +5,7 @@
       <v-list dense>
         <v-list-item link>
           <v-list-item-action>
-            <v-icon>mdi-domain</v-icon>
+            <v-icon>mdi-home-group</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Hoteluri</v-list-item-title>
@@ -37,7 +37,7 @@
             <v-icon>mdi-format-list-checks</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Tarifar</v-list-item-title>
+            <v-list-item-title>Tarife</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -54,10 +54,10 @@
 
     </v-navigation-drawer>
 
-    <v-app-bar app clipped-left color="blue-grey">
-      <v-toolbar-title>Toolbar</v-toolbar-title>
+    <v-app-bar app clipped-left dense color="blue-grey">
+      <v-toolbar-title class="white--text">Untitled B2B Project</v-toolbar-title>
       <v-spacer/>
-      <v-text-field hide-details dense label="Hotel" value="Hotelul lui Peste" flat solo-inverted dark style="max-width: 300px"/>
+      <v-text-field hide-details dense label="Hotel" value="Hotelul lu' Peste" flat solo-inverted dark style="max-width: 300px"/>
     </v-app-bar>
 
 
@@ -102,6 +102,18 @@
 
               <tbody>
 
+              <tr>
+                <th class="sheet-header text-truncate text-capitalize">
+                  <span class="font-weight-regular">Closed Out</span>
+                </th>
+                <td class="sheet-cell" v-for="(inventory, index) in list.sheet.inventory[room.id]" :key="index">
+                  <v-btn text block tile height="30" :ripple="false" @click="drawer=!drawer" color="blue-grey">
+                    <v-icon v-if="!drawer" color="green" style="font-size: 40px; line-height: 0;">mdi-toggle-switch</v-icon>
+                    <v-icon v-if="drawer" color="red" style="font-size: 40px; line-height: 0;">mdi-toggle-switch-off</v-icon>
+                  </v-btn>
+                </td>
+              </tr>
+
                 <tr>
                   <th class="sheet-header text-truncate text-capitalize font-weight-regular">Available</th>
                   <td class="sheet-cell text-center" v-for="(inventory, index) in list.sheet.inventory[room.id]" :key="index">
@@ -116,22 +128,15 @@
                   </td>
                 </tr>
 
-                <tr>
-                  <th class="sheet-header text-truncate text-capitalize">
-                    <span class="font-weight-regular">Closed Out</span>
-                  </th>
-                  <td class="sheet-cell" v-for="(inventory, index) in list.sheet.inventory[room.id]" :key="index">
-                    <v-switch v-model.lazy="inventory.close_out" hide-details dense inset color="red lighten-1" class="sheet-switch" :ripple="false"/>
-                  </td>
-                </tr>
+
 
                 <template v-for="(rate, index) in room.rate_plans">
 
                   <tr :key="index">
                     <th class="sheet-header text-truncate text-capitalize">
                       <span><v-btn icon x-small class="ml-n1 mr-1" @click="expand(rate)"><v-icon small>mdi-chevron-down</v-icon></v-btn>{{rate.name}}</span>
-                      <v-spacer/>
-                      <span class="font-weight-light">(Tarif: {{rate.id}})</span>
+<!--                      <v-spacer/>-->
+<!--                      <span class="font-weight-light">(Tarif: {{rate.id}})</span>-->
                     </th>
                     <td class="sheet-cell text-center" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
                       <input v-model.lazy="price.price" class="sheet-input"/>
@@ -145,7 +150,9 @@
                         <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Stop Sell</span>
                       </th>
                       <td class="sheet-cell" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <v-switch v-model.lazy="price.stop_sell" hide-details dense inset class="sheet-switch" color="red lighten-1" :ripple="false"/>
+                        <v-btn text block tile @click="drawer = !drawer">
+                          <v-icon>mdi-toggle-switch</v-icon>
+                        </v-btn>
                       </td>
                     </tr>
 
@@ -154,7 +161,9 @@
                         <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Closed Arrival</span>
                       </th>
                       <td class="sheet-cell-top" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <v-switch v-model.lazy="price.closed_arrival" hide-details dense inset class="sheet-switch" color="red lighten-1" :ripple="false"/>
+                        <v-btn text block tile>
+                          <v-icon>mdi-toggle-switch</v-icon>
+                        </v-btn>
                       </td>
                     </tr>
                     <tr :key="'closed-departure' + index">
@@ -162,7 +171,9 @@
                         <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Closed Departure</span>
                       </th>
                       <td class="sheet-cell-bottom" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <v-switch v-model.lazy="price.closed_departure" hide-details dense inset class="sheet-switch" color="red lighten-1" :ripple="false"/>
+                        <v-btn text block tile>
+                          <v-icon>mdi-toggle-switch</v-icon>
+                        </v-btn>
                       </td>
                     </tr>
 
@@ -422,7 +433,7 @@
   }
 
   .sheet-input {
-    width: 64px;
+    width: 66px;
     height: 24px;
     background-color: white;
     font-size: 12px;
