@@ -1,35 +1,75 @@
 <template>
   <v-app>
 
-    <v-app-bar app color="blue-grey" dark>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
+    <v-navigation-drawer app clipped expand-on-hover>
+      <v-list dense>
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>mdi-domain</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Hoteluri</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-divider class="mx-4"/>
+
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>mdi-format-list-checks</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Inventar</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>mdi-format-list-checks</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Camere</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>mdi-format-list-checks</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Tarifar</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>mdi-format-list-checks</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Politici de anulare</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+      </v-list>
+
+    </v-navigation-drawer>
+
+    <v-app-bar app clipped-left color="blue-grey">
       <v-toolbar-title>Toolbar</v-toolbar-title>
+      <v-spacer/>
+      <v-text-field hide-details dense label="Hotel" value="Hotelul lui Peste" flat solo-inverted dark style="max-width: 300px"/>
     </v-app-bar>
 
-<!--    <v-navigation-drawer app v-model="drawer">-->
-<!--      <v-list dense>-->
-<!--        <v-list-item link>-->
-<!--          <v-list-item-action>-->
-<!--            <v-icon>mdi-home</v-icon>-->
-<!--          </v-list-item-action>-->
-<!--          <v-list-item-content>-->
-<!--            <v-list-item-title>Home</v-list-item-title>-->
-<!--          </v-list-item-content>-->
-<!--        </v-list-item>-->
-<!--        <v-list-item link>-->
-<!--          <v-list-item-action>-->
-<!--            <v-icon>mdi-contact-mail</v-icon>-->
-<!--          </v-list-item-action>-->
-<!--          <v-list-item-content>-->
-<!--            <v-list-item-title>Contact</v-list-item-title>-->
-<!--          </v-list-item-content>-->
-<!--        </v-list-item>-->
-<!--      </v-list>-->
-<!--    </v-navigation-drawer>-->
 
     <v-content>
 
       <v-container fluid>
+
+        <v-card outlined class="ma-2">
+          <v-card-text>
+            <v-text-field outlined hide-details dense label="Interval"></v-text-field>
+          </v-card-text>
+        </v-card>
 
         <v-card v-for="(room, index) in list.room_types" :key="index" outlined class="ma-2">
 
@@ -81,7 +121,7 @@
                     <span class="font-weight-regular">Closed Out</span>
                   </th>
                   <td class="sheet-cell" v-for="(inventory, index) in list.sheet.inventory[room.id]" :key="index">
-                    <v-switch v-model.lazy="inventory.close_out" hide-details dense inset class="sheet-switch" color="red" :ripple="false"/>
+                    <v-switch v-model.lazy="inventory.close_out" hide-details dense inset color="red lighten-1" class="sheet-switch" :ripple="false"/>
                   </td>
                 </tr>
 
@@ -105,7 +145,7 @@
                         <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Stop Sell</span>
                       </th>
                       <td class="sheet-cell" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <v-switch v-model.lazy="price.stop_sell" hide-details dense inset class="sheet-switch" color="red" :ripple="false"/>
+                        <v-switch v-model.lazy="price.stop_sell" hide-details dense inset class="sheet-switch" color="red lighten-1" :ripple="false"/>
                       </td>
                     </tr>
 
@@ -114,7 +154,7 @@
                         <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Closed Arrival</span>
                       </th>
                       <td class="sheet-cell-top" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <v-switch v-model.lazy="price.closed_arrival" hide-details dense inset class="sheet-switch" color="red" :ripple="false"/>
+                        <v-switch v-model.lazy="price.closed_arrival" hide-details dense inset class="sheet-switch" color="red lighten-1" :ripple="false"/>
                       </td>
                     </tr>
                     <tr :key="'closed-departure' + index">
@@ -122,7 +162,7 @@
                         <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Closed Departure</span>
                       </th>
                       <td class="sheet-cell-bottom" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <v-switch v-model.lazy="price.closed_departure" hide-details dense inset class="sheet-switch" color="red" :ripple="false"/>
+                        <v-switch v-model.lazy="price.closed_departure" hide-details dense inset class="sheet-switch" color="red lighten-1" :ripple="false"/>
                       </td>
                     </tr>
 
@@ -243,7 +283,7 @@
 
       scroll: function (event) {
         this.$refs['sheet-wrapper'].forEach(item => {
-          if(event.target !== item) {
+          if (event.target !== item) {
             item.scrollLeft = event.target.scrollLeft;
           }
         });
@@ -256,7 +296,7 @@
 
     data: () => ({
       list: [],
-      drawer: null,
+      drawer: true,
       show: false
     })
   }
@@ -322,7 +362,7 @@
 
     z-index: 1;
 
-    border: 1px solid rgba(96, 125, 139, .1);
+    border: 1px solid rgba(0, 0, 0, .075);
 
     padding: 4px 8px;
   }
@@ -337,9 +377,9 @@
 
     z-index: 1;
 
-    border-top: 1px solid rgba(96, 125, 139, .1);
-    border-left: 1px solid rgba(96, 125, 139, .1);
-    border-right: 1px solid rgba(96, 125, 139, .1);
+    border-top: 1px solid rgba(0, 0, 0, .075);
+    border-left: 1px solid rgba(0, 0, 0, .075);
+    border-right: 1px solid rgba(0, 0, 0, .075);
 
     padding-right: 8px;
     padding-left: 8px;
@@ -356,9 +396,9 @@
 
     z-index: 1;
 
-    border-left: 1px solid rgba(96, 125, 139, .1);
-    border-right: 1px solid rgba(96, 125, 139, .1);
-    border-bottom: 1px solid rgba(96, 125, 139, .1);
+    border-left: 1px solid rgba(0, 0, 0, .075);
+    border-right: 1px solid rgba(0, 0, 0, .075);
+    border-bottom: 1px solid rgba(0, 0, 0, .075);
 
     padding-right: 8px;
     padding-left: 8px;
@@ -366,19 +406,19 @@
   }
 
   .sheet-cell {
-    border: 1px solid rgba(96, 125, 139, .1);
+    border: 1px solid rgba(0, 0, 0, .075);
   }
 
   .sheet-cell-top {
-    border-top:   1px solid rgba(96, 125, 139, .1);
-    border-right: 1px solid rgba(96, 125, 139, .1);
-    border-left:  1px solid rgba(96, 125, 139, .1);
+    border-top: 1px solid rgba(0, 0, 0, .075);
+    border-right: 1px solid rgba(0, 0, 0, .075);
+    border-left: 1px solid rgba(0, 0, 0, .075);
   }
 
   .sheet-cell-bottom {
-    border-right:  1px solid rgba(96, 125, 139, .1);
-    border-left:   1px solid rgba(96, 125, 139, .1);
-    border-bottom: 1px solid rgba(96, 125, 139, .1);
+    border-right: 1px solid rgba(0, 0, 0, .075);
+    border-left: 1px solid rgba(0, 0, 0, .075);
+    border-bottom: 1px solid rgba(0, 0, 0, .075);
   }
 
   .sheet-input {
@@ -387,7 +427,7 @@
     background-color: white;
     font-size: 12px;
     text-align: center;
-    outline: 1px solid rgba(96, 125, 139, .1);
+    outline: 1px solid rgba(0, 0, 0, .075);
   }
 
   .sheet-switch {
@@ -396,11 +436,11 @@
   }
 
   .weekday {
-    background-color: rgba(96, 125, 139, .1)
+    background-color: rgba(0, 0, 0, .075)
   }
 
   .weekend {
-    background-color: rgba(96, 125, 139, .2)
+    background-color: rgba(0, 0, 0, .125)
   }
 
   .closed {
