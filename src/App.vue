@@ -95,8 +95,8 @@
                   <th class="sheet-date font-weight-medium py-1" :style="{ backgroundColor: (month.name !== '') ? 'white' : 'transparent'}" v-for="(month, index) in sheetMonths" :key="index">{{ month.name }}</th>
                 </tr>
                 <tr>
-                  <th class="sheet-header" style="border-top: 1px solid white; border-left: 1px solid white;"/>
-                  <th class="sheet-cell" v-for="(day, index) in list.days" :key="index">{{ $moment(day).format('ddd') }}<br>{{ $moment(day).format('D') }}</th>
+                  <th class="sheet-header text-center" style="border-top: 1px solid white; border-left: 1px solid white;"><v-btn color="blue-grey" tile block outlined>bulk update</v-btn></th>
+                  <th class="sheet-cell" style="border-top: 2px solid rgba(96, 125, 139, .1);" v-for="(day, index) in list.days" :key="index">{{ $moment(day).format('ddd') }}<br>{{ $moment(day).format('D') }}</th>
                 </tr>
               </thead>
 
@@ -373,7 +373,7 @@
 
     z-index: 1;
 
-    border: 1px solid rgba(0, 0, 0, .075);
+    border: 1px solid rgba(96, 125, 139, .1);
 
     padding: 4px 8px;
   }
@@ -388,9 +388,9 @@
 
     z-index: 1;
 
-    border-top: 1px solid rgba(0, 0, 0, .075);
-    border-left: 1px solid rgba(0, 0, 0, .075);
-    border-right: 1px solid rgba(0, 0, 0, .075);
+    border-top: 1px solid rgba(96, 125, 139, .1);
+    border-left: 1px solid rgba(96, 125, 139, .1);
+    border-right: 1px solid rgba(96, 125, 139, .1);
 
     padding-right: 8px;
     padding-left: 8px;
@@ -407,9 +407,9 @@
 
     z-index: 1;
 
-    border-left: 1px solid rgba(0, 0, 0, .075);
-    border-right: 1px solid rgba(0, 0, 0, .075);
-    border-bottom: 1px solid rgba(0, 0, 0, .075);
+    border-left: 1px solid rgba(96, 125, 139, .1);
+    border-right: 1px solid rgba(96, 125, 139, .1);
+    border-bottom: 1px solid rgba(96, 125, 139, .1);
 
     padding-right: 8px;
     padding-left: 8px;
@@ -417,19 +417,19 @@
   }
 
   .sheet-cell {
-    border: 1px solid rgba(0, 0, 0, .075);
+    border: 1px solid rgba(96, 125, 139, .1);
   }
 
   .sheet-cell-top {
-    border-top: 1px solid rgba(0, 0, 0, .075);
-    border-right: 1px solid rgba(0, 0, 0, .075);
-    border-left: 1px solid rgba(0, 0, 0, .075);
+    border-top: 1px solid rgba(96, 125, 139, .1);
+    border-right: 1px solid rgba(96, 125, 139, .1);
+    border-left: 1px solid rgba(96, 125, 139, .1);
   }
 
   .sheet-cell-bottom {
-    border-right: 1px solid rgba(0, 0, 0, .075);
-    border-left: 1px solid rgba(0, 0, 0, .075);
-    border-bottom: 1px solid rgba(0, 0, 0, .075);
+    border-right: 1px solid rgba(96, 125, 139, .1);
+    border-left: 1px solid rgba(96, 125, 139, .1);
+    border-bottom: 1px solid rgba(96, 125, 139, .1);
   }
 
   .sheet-input {
@@ -438,7 +438,7 @@
     background-color: white;
     font-size: 12px;
     text-align: center;
-    outline: 1px solid rgba(0, 0, 0, .075);
+    outline: 1px solid rgba(96, 125, 139, .1);
   }
 
   .sheet-switch {
@@ -447,11 +447,11 @@
   }
 
   .weekday {
-    background-color: rgba(0, 0, 0, .075)
+    background-color: rgba(96, 125, 139, .05)
   }
 
   .weekend {
-    background-color: rgba(0, 0, 0, .125)
+    background-color: rgba(96, 125, 139, .15)
   }
 
   .closed {
