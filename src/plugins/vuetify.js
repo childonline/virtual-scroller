@@ -15,9 +15,6 @@ export default new Vuetify({
         error: colors.red.accent3,
         success: colors.green.accent3,
       },
-      dark: {
-        primary: colors.blue.lighten3,
-      },
     },
   },
   icons: {

@@ -1,7 +1,7 @@
 <template>
   <v-app>
 
-    <v-navigation-drawer app clipped expand-on-hover>
+    <v-navigation-drawer app clipped expand-on-hover :mini-variant-width="56">
       <v-list dense>
         <v-list-item link>
           <v-list-item-action>
@@ -54,7 +54,7 @@
 
     </v-navigation-drawer>
 
-    <v-app-bar app clipped-left dense color="blue-grey">
+    <v-app-bar app clipped-left dense color="primary">
       <v-toolbar-title class="white--text">Untitled B2B Project</v-toolbar-title>
       <v-spacer/>
       <v-text-field hide-details dense label="Hotel" value="Hotelul lu' Peste" flat solo-inverted dark style="max-width: 300px"/>
@@ -65,8 +65,22 @@
       <v-container fluid>
 
         <v-card outlined class="ma-2">
-          <v-card-text>
-            <v-text-field outlined hide-details dense label="Interval"></v-text-field>
+          <v-card-text class="pa-1">
+            <v-row no-gutters>
+              <v-col cols="2">
+                <v-select class="ma-1" outlined hide-details :items="['Camera 1', 'Camera 2', 'Camera 3']" label="Camere"/>
+              </v-col>
+              <v-col cols="2">
+                <v-text-field class="ma-1" outlined hide-details label="Interval"/>
+              </v-col>
+              <v-col cols="6">
+              </v-col>
+              <v-col cols="2">
+                <div class="ma-1">
+                  <v-btn block depressed class="primary" height="56">Cauta</v-btn>
+                </div>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
 
@@ -94,24 +108,24 @@
                   <th class="sheet-date text-capitalize py-1" :style="{ backgroundColor: (month.name !== '') ? 'white' : 'transparent'}" v-for="(month, index) in sheetMonths" :key="index">{{ month.name }}</th>
                 </tr>
                 <tr>
-                  <th class="sheet-header text-center" style="border-top: 1px solid white; border-left: 1px solid white;"><v-btn color="blue-grey" tile block outlined>bulk update</v-btn></th>
+                  <th class="sheet-header text-center" style="border-top: 1px solid white; border-left: 1px solid white;"></th>
                   <th class="sheet-cell" style="border-top: 2px solid rgba(96, 125, 139, .1);" v-for="(day, index) in list.days" :key="index">{{ $moment(day).format('ddd') }} {{ $moment(day).format('D') }}</th>
                 </tr>
               </thead>
 
               <tbody>
 
-              <tr>
-                <th class="sheet-header text-truncate text-capitalize">
-                  <span class="font-weight-regular">Closed Out</span>
-                </th>
-                <td class="sheet-cell" v-for="(inventory, index) in list.sheet.inventory[room.id]" :key="index">
-                  <v-btn text block tile @click="drawer=!drawer" height="24">
-                    <v-icon v-if="!drawer" color="green" x-large style="line-height: 0;">mdi-toggle-switch</v-icon>
-                    <v-icon v-if="drawer" color="red" x-large style="line-height: 0;">mdi-toggle-switch-off</v-icon>
-                  </v-btn>
-                </td>
-              </tr>
+                <tr>
+                  <th class="sheet-header text-truncate text-capitalize">
+                    <span class="font-weight-regular">Closed Out</span>
+                  </th>
+                  <td class="sheet-cell" v-for="(inventory, index) in list.sheet.inventory[room.id]" :key="index">
+                    <v-btn text block tile @click="drawer=!drawer" height="24">
+                      <v-icon v-if="!drawer" color="green" x-large style="line-height: 0;">mdi-toggle-switch</v-icon>
+                      <v-icon v-if="drawer" color="red" x-large style="line-height: 0;">mdi-toggle-switch-off</v-icon>
+                    </v-btn>
+                  </td>
+                </tr>
 
                 <tr>
                   <th class="sheet-header text-truncate text-capitalize font-weight-regular">Available</th>
@@ -174,8 +188,8 @@
                         <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Min/Max Inventory</span>
                       </th>
                       <td class="sheet-cell" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                          <input v-model.lazy="price.min_inventory" class="sheet-input-left"/>
-                          <input v-model.lazy="price.max_inventory" class="sheet-input-right"/>
+                        <input v-model.lazy="price.min_inventory" class="sheet-input-left"/>
+                        <input v-model.lazy="price.max_inventory" class="sheet-input-right"/>
                       </td>
                     </tr>
 
