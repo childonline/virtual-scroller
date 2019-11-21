@@ -96,7 +96,7 @@
                 </tr>
                 <tr>
                   <th class="sheet-header text-center" style="border-top: 1px solid white; border-left: 1px solid white;"><v-btn color="blue-grey" tile block outlined>bulk update</v-btn></th>
-                  <th class="sheet-cell" style="border-top: 2px solid rgba(96, 125, 139, .1);" v-for="(day, index) in list.days" :key="index">{{ $moment(day).format('ddd') }}<br>{{ $moment(day).format('D') }}</th>
+                  <th class="sheet-cell" style="border-top: 2px solid rgba(96, 125, 139, .1);" v-for="(day, index) in list.days" :key="index">{{ $moment(day).format('ddd') }} {{ $moment(day).format('D') }}</th>
                 </tr>
               </thead>
 
@@ -107,9 +107,9 @@
                   <span class="font-weight-regular">Closed Out</span>
                 </th>
                 <td class="sheet-cell" v-for="(inventory, index) in list.sheet.inventory[room.id]" :key="index">
-                  <v-btn text block tile height="30" :ripple="false" @click="drawer=!drawer" color="blue-grey">
-                    <v-icon v-if="!drawer" color="green" style="font-size: 40px; line-height: 0;">mdi-toggle-switch</v-icon>
-                    <v-icon v-if="drawer" color="red" style="font-size: 40px; line-height: 0;">mdi-toggle-switch-off</v-icon>
+                  <v-btn text block tile @click="drawer=!drawer" height="24">
+                    <v-icon v-if="!drawer" color="green" x-large style="line-height: 0;">mdi-toggle-switch</v-icon>
+                    <v-icon v-if="drawer" color="red" x-large style="line-height: 0;">mdi-toggle-switch-off</v-icon>
                   </v-btn>
                 </td>
               </tr>
@@ -127,7 +127,6 @@
                     <input v-model.lazy="inventory.booked" class="sheet-input" readonly/>
                   </td>
                 </tr>
-
 
 
                 <template v-for="(rate, index) in room.rate_plans">
@@ -150,98 +149,66 @@
                         <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Stop Sell</span>
                       </th>
                       <td class="sheet-cell" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <v-btn text block tile @click="drawer = !drawer">
-                          <v-icon>mdi-toggle-switch</v-icon>
+                        <v-btn text block tile @click="drawer=!drawer" height="24">
+                          <v-icon v-if="!drawer" color="red" x-large style="line-height: 0;">mdi-toggle-switch</v-icon>
+                          <v-icon v-if="drawer" color="green" x-large style="line-height: 0;">mdi-toggle-switch-off</v-icon>
                         </v-btn>
                       </td>
                     </tr>
 
-                    <tr :key="'closed-arrival' + index">
-                      <th class="sheet-header-top text-truncate text-capitalize">
-                        <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Closed Arrival</span>
+                    <tr :key="'closed-arrival-departure' + index">
+                      <th class="sheet-header text-truncate text-capitalize">
+                        <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Closed Arrival/Departure</span>
                       </th>
-                      <td class="sheet-cell-top" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <v-btn text block tile>
-                          <v-icon>mdi-toggle-switch</v-icon>
+                      <td class="sheet-cell" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
+                        <v-btn text tile @click="drawer=!drawer" height="24" class="sheet-switch-left">
+                          <v-icon v-if="!drawer" color="green" large style="line-height: 0;">mdi-toggle-switch</v-icon>
+                          <v-icon v-if="drawer" color="red" large style="line-height: 0;">mdi-toggle-switch-off</v-icon>
                         </v-btn>
-                      </td>
-                    </tr>
-                    <tr :key="'closed-departure' + index">
-                      <th class="sheet-header-bottom text-truncate text-capitalize">
-                        <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Closed Departure</span>
-                      </th>
-                      <td class="sheet-cell-bottom" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <v-btn text block tile>
-                          <v-icon>mdi-toggle-switch</v-icon>
+                        <v-btn text tile @click="drawer=!drawer" height="24" class="sheet-switch-right">
+                          <v-icon v-if="!drawer" color="green" large style="line-height: 0;">mdi-toggle-switch</v-icon>
+                          <v-icon v-if="drawer" color="red" large style="line-height: 0;">mdi-toggle-switch-off</v-icon>
                         </v-btn>
                       </td>
                     </tr>
 
-                    <tr :key="'min-inventory' + index">
-                      <th class="sheet-header-top text-truncate text-capitalize">
-                        <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Min. Inventory</span>
+                    <tr :key="'inventory' + index">
+                      <th class="sheet-header text-truncate text-capitalize">
+                        <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Min/Max Inventory</span>
                       </th>
-                      <td class="sheet-cell-top text-center" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <input v-model.lazy="price.min_inventory" class="sheet-input"/>
-                      </td>
-                    </tr>
-                    <tr :key="'max-inventory' + index">
-                      <th class="sheet-header-bottom text-truncate text-capitalize">
-                        <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Max. Inventory</span>
-                      </th>
-                      <td class="sheet-cell-bottom text-center" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <input v-model.lazy="price.max_inventory" class="sheet-input"/>
+                      <td class="sheet-cell" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
+                          <input v-model.lazy="price.min_inventory" class="sheet-input-left"/>
+                          <input v-model.lazy="price.max_inventory" class="sheet-input-right"/>
                       </td>
                     </tr>
 
-                    <tr :key="'min-stay-through' + index">
-                      <th class="sheet-header-top text-truncate text-capitalize">
-                        <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Min. Length of Stay</span>
+                    <tr :key="'stay-through' + index">
+                      <th class="sheet-header text-truncate text-capitalize">
+                        <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Min/Max Stay Through</span>
                       </th>
-                      <td class="sheet-cell-top text-center" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <input v-model.lazy="price.min_stay_through" class="sheet-input"/>
-                      </td>
-                    </tr>
-                    <tr :key="'max-stay-through' + index">
-                      <th class="sheet-header-bottom text-truncate text-capitalize">
-                        <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Max. Length of Stay</span>
-                      </th>
-                      <td class="sheet-cell-bottom text-center" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <input v-model.lazy="price.max_stay_through" class="sheet-input"/>
+                      <td class="sheet-cell" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
+                        <input v-model.lazy="price.min_stay_through" class="sheet-input-left"/>
+                        <input v-model.lazy="price.max_stay_through" class="sheet-input-right"/>
                       </td>
                     </tr>
 
-                    <tr :key="'min-stay' + index">
-                      <th class="sheet-header-top text-truncate text-capitalize">
-                        <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Min. Length of Stay from Arrival</span>
+                    <tr :key="'stay' + index">
+                      <th class="sheet-header text-truncate text-capitalize">
+                        <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Min/Max Stay</span>
                       </th>
-                      <td class="sheet-cell-top text-center" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <input v-model.lazy="price.min_stay" class="sheet-input"/>
-                      </td>
-                    </tr>
-                    <tr :key="'max-stay' + index">
-                      <th class="sheet-header-bottom text-truncate text-capitalize">
-                        <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Max. Length of Stay from Arrival</span>
-                      </th>
-                      <td class="sheet-cell-bottom text-center" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <input v-model.lazy="price.max_stay" class="sheet-input"/>
+                      <td class="sheet-cell" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
+                        <input v-model.lazy="price.min_stay" class="sheet-input-left"/>
+                        <input v-model.lazy="price.max_stay" class="sheet-input-right"/>
                       </td>
                     </tr>
 
                     <tr :key="'min-days-advance' + index">
-                      <th class="sheet-header-top text-truncate text-capitalize">
-                        <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Min. Advance Reservation</span>
+                      <th class="sheet-header text-truncate text-capitalize">
+                        <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Min/Max Advance Reservation</span>
                       </th>
-                      <td class="sheet-cell-top text-center" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <input v-model.lazy="price.min_days_advance" class="sheet-input"/>
-                      </td>
-                    </tr>
-                    <tr :key="'max-days-advance' + index">
-                      <th class="sheet-header-bottom text-truncate text-capitalize">
-                        <span class="font-weight-regular"><v-icon x-small class="mr-1">mdi-help-circle-outline</v-icon> Max. Advance Reservation</span>
-                      </th>
-                      <td class="sheet-cell-bottom text-center" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
-                        <input v-model.lazy="price.max_days_advance" class="sheet-input"/>
+                      <td class="sheet-cell" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
+                        <input v-model.lazy="price.min_days_advance" class="sheet-input-left"/>
+                        <input v-model.lazy="price.max_days_advance" class="sheet-input-right"/>
                       </td>
                     </tr>
 
@@ -355,9 +322,6 @@
 
     font-size: 12px;
 
-    width: 74px;
-    min-width: 74px;
-    max-width: 74px;
     left: 250px;
   }
 
@@ -375,65 +339,31 @@
 
     border: 1px solid rgba(96, 125, 139, .1);
 
-    padding: 4px 8px;
-  }
-
-  .sheet-header-top {
-    width: 250px;
-    min-width: 250px;
-    max-width: 250px;
-    background-color: white;
-    font-size: 12px;
-    text-align: left;
-
-    z-index: 1;
-
-    border-top: 1px solid rgba(96, 125, 139, .1);
-    border-left: 1px solid rgba(96, 125, 139, .1);
-    border-right: 1px solid rgba(96, 125, 139, .1);
-
-    padding-right: 8px;
     padding-left: 8px;
-    padding-top: 8px;
-  }
 
-  .sheet-header-bottom {
-    width: 250px;
-    min-width: 250px;
-    max-width: 250px;
-    background-color: white;
-    font-size: 12px;
-    text-align: left;
-
-    z-index: 1;
-
-    border-left: 1px solid rgba(96, 125, 139, .1);
-    border-right: 1px solid rgba(96, 125, 139, .1);
-    border-bottom: 1px solid rgba(96, 125, 139, .1);
-
-    padding-right: 8px;
-    padding-left: 8px;
-    padding-bottom: 8px;
   }
 
   .sheet-cell {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+    padding: 4px;
     border: 1px solid rgba(96, 125, 139, .1);
   }
 
-  .sheet-cell-top {
-    border-top: 1px solid rgba(96, 125, 139, .1);
-    border-right: 1px solid rgba(96, 125, 139, .1);
-    border-left: 1px solid rgba(96, 125, 139, .1);
-  }
-
-  .sheet-cell-bottom {
-    border-right: 1px solid rgba(96, 125, 139, .1);
-    border-left: 1px solid rgba(96, 125, 139, .1);
-    border-bottom: 1px solid rgba(96, 125, 139, .1);
-  }
-
   .sheet-input {
-    width: 66px;
+    width: 100%;
+    height: 24px;
+    background-color: white;
+    font-size: 12px;
+    text-align: center;
+
+    outline: 1px solid rgba(96, 125, 139, .1);
+  }
+
+  .sheet-input-left {
+    width: calc(50% - 2px);
+    margin-right: 2px;
     height: 24px;
     background-color: white;
     font-size: 12px;
@@ -441,9 +371,26 @@
     outline: 1px solid rgba(96, 125, 139, .1);
   }
 
-  .sheet-switch {
-    padding: 0;
-    margin: 2px 0 0 16px;
+  .sheet-input-right {
+    width: calc(50% - 2px);
+    margin-left: 2px;
+    height: 24px;
+    background-color: white;
+    font-size: 12px;
+    text-align: center;
+    outline: 1px solid rgba(96, 125, 139, .1);
+  }
+
+  .sheet-switch-left {
+    padding: 0 !important;
+    margin: 0 2px 0 0 !important;
+    width: calc(50% - 2px);
+  }
+
+  .sheet-switch-right {
+    padding: 0 !important;
+    margin: 0 0 0 2px !important;
+    width: calc(50% - 2px);
   }
 
   .weekday {
@@ -452,10 +399,6 @@
 
   .weekend {
     background-color: rgba(96, 125, 139, .15)
-  }
-
-  .closed {
-
   }
 
 </style>
