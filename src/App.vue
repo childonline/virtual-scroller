@@ -60,7 +60,6 @@
       <v-text-field hide-details dense label="Hotel" value="Hotelul lu' Peste" flat solo-inverted dark style="max-width: 300px"/>
     </v-app-bar>
 
-
     <v-content>
 
       <v-container fluid>
@@ -86,13 +85,13 @@
 
               <colgroup>
                 <col/>
-                <col v-for="(day, index) in list.days" :key="index" :class="{weekday: true, weekend: ($moment(day).format('dddd') === 'Saturday' || $moment(day).format('dddd') === 'Sunday'), closed: true}"/>
+                <col v-for="(day, index) in list.days" :key="index" :class="{weekday: true, weekend: ($moment(day).locale('en').format('dddd') === 'Saturday' || $moment(day).locale('en').format('dddd') === 'Sunday'), closed: true}"/>
               </colgroup>
 
               <thead>
                 <tr style="background-color: white;">
                   <th></th>
-                  <th class="sheet-date font-weight-medium py-1" :style="{ backgroundColor: (month.name !== '') ? 'white' : 'transparent'}" v-for="(month, index) in sheetMonths" :key="index">{{ month.name }}</th>
+                  <th class="sheet-date text-capitalize py-1" :style="{ backgroundColor: (month.name !== '') ? 'white' : 'transparent'}" v-for="(month, index) in sheetMonths" :key="index">{{ month.name }}</th>
                 </tr>
                 <tr>
                   <th class="sheet-header text-center" style="border-top: 1px solid white; border-left: 1px solid white;"><v-btn color="blue-grey" tile block outlined>bulk update</v-btn></th>
@@ -134,8 +133,6 @@
                   <tr :key="index">
                     <th class="sheet-header text-truncate text-capitalize">
                       <span><v-btn icon x-small class="ml-n1 mr-1" @click="expand(rate)"><v-icon small>mdi-chevron-down</v-icon></v-btn>{{rate.name}}</span>
-<!--                      <v-spacer/>-->
-<!--                      <span class="font-weight-light">(Tarif: {{rate.id}})</span>-->
                     </th>
                     <td class="sheet-cell text-center" v-for="(price, index) in list.sheet.pricing[room.id][rate.id]" :key="index">
                       <input v-model.lazy="price.price" class="sheet-input"/>
@@ -237,6 +234,7 @@
   export default {
 
     async created() {
+      this.$moment.locale('ro');
       this.list = list;
       this.sheetMonths = Object.assign({}, this.getMonths(this.list.period));
     },
@@ -319,28 +317,20 @@
   .sheet-date {
     position: -webkit-sticky;
     position: sticky;
-
     font-size: 12px;
-
     left: 250px;
   }
 
   .sheet-header {
     font-size: 12px;
     text-align: left;
-
     width: 250px;
     min-width: 250px;
     max-width: 250px;
-
     background-color: white;
-
     z-index: 1;
-
     border: 1px solid rgba(96, 125, 139, .1);
-
     padding-left: 8px;
-
   }
 
   .sheet-cell {
@@ -384,12 +374,14 @@
   .sheet-switch-left {
     padding: 0 !important;
     margin: 0 2px 0 0 !important;
+    min-width: 0 !important;
     width: calc(50% - 2px);
   }
 
   .sheet-switch-right {
     padding: 0 !important;
     margin: 0 0 0 2px !important;
+    min-width: 0 !important;
     width: calc(50% - 2px);
   }
 
